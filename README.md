@@ -1,2 +1,2 @@
 # Taximan
-Cab booking application build primarily using mysql and python .
+Cab booking application build primarily using mysql and python 
