@@ -1,0 +1,69 @@
+Embedded SQL
+
+1) Get all users with mobile no. starting with '987'
+
+select * from user where mobile_no like '987%';
+
+
+
+2) Get the average rating of all drivers
+
+select avg(ratings) from driver;
+
+
+
+
+
+OLAP Query
+
+1) Get the total number of trips by each driver
+
+select driver_id, count(*) as num_trips from trip group by driver_id;
+
+
+
+2) Get the total amount earned by each driver
+
+select driver_id, sum(total_amount) as total_earnings from trip group by driver_id;
+
+
+
+3) Get the total distance travelled by each customer
+
+select customer_id, sum(distance) as total_distance from trip group by customer_id;
+
+
+
+4) Get the average rating for each car
+
+select car_name, avg(ratings) as avg_rating from driver group by car_name;
+
+
+
+
+Triggers
+
+delimiter //
+create trigger valid_rating
+before insert
+on driver
+for each row
+begin
+if (new.ratings < 0 or new.ratings > 5) then
+signal sqlstate '45000' set message_text = 'Driver rating    invalid';
+end if;
+end;
+//
+
+
+delimiter //
+create trigger valid_rating
+before update
+on customer
+for each row
+begin
+if (new.ratings < 0 or new.ratings > 5) then
+signal sqlstate '45000' set message_text = 'Driver rating    invalid';
+end if;
+end;
+//
